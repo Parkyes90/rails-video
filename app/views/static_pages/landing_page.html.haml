@@ -1,7 +1,5 @@
 %nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  %a.navbar-brand{:href => "#"}
-    %i.fas.fa-home
-    Navbar
+  %a.navbar-brand{:href => "#"} Navbar
   %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
     %span.navbar-toggler-icon
   #navbarSupportedContent.collapse.navbar-collapse
@@ -25,9 +23,16 @@
     %form.form-inline.my-2.my-lg-0
       %input.form-control.mr-sm-2{"aria-label" => "Search", :placeholder => "Search", :type => "search"}/
       %button.btn.btn-outline-success.my-2.my-sm-0{:type => "submit"} Search
-.container
-  %h1 Hello World
-  = link_to "Privacy Policy", privacy_policy_path, class: "btn btn-lg btn-warning"
-  = link_to privacy_policy_path, class: "btn btn-lg btn-warning" do
-    %i.fas.fa-file-word
-    Privacy Policy
+  
+  
+%h1 
+  Hello World
+  
+.fa.fa-flag
+.fab.fa-amazon
+= link_to root_path do
+  .fa.fa-home
+
+= link_to courses_path, class: "btn btn-success" do
+  .fa.fa-book
+  Course
