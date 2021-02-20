@@ -2,6 +2,7 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   config.hosts << ENV["APP_HOST"]
+  config.action_mailer.default_url_options = { host: ENV["APP_HOST"] }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
