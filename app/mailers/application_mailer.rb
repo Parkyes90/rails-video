@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'support@parkyes90-video-app'
+  default from: 'from@example.com'
   layout 'mailer'
 end
