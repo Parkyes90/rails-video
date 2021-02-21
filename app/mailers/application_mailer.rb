@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'parkyes90-video-app.herokuapp.com'
+  default from: 'support@parkyes90-video-app'
   layout 'mailer'
 end
