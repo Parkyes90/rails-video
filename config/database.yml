@@ -20,6 +20,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  port: 5433
+  username: <%= ENV["COURSEGO_DB_USERNAME"] %>
+  password: <%= ENV["COURSEGO_DB_PASSWORD"] %>
 
 development:
   <<: *default
