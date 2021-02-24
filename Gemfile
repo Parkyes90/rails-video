@@ -40,3 +40,4 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'ransack'
 gem 'prettier'
 gem 'public_activity'
+gem "rolify"
