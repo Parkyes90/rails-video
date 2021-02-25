@@ -10,8 +10,6 @@ class User < ApplicationRecord
          :trackable,
          :confirmable
 
-  rolify
-
   def to_s
     email
   end
