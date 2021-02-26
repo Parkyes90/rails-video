@@ -24,6 +24,7 @@ class LessonsController < ApplicationController
   # POST /lessons
   # POST /lessons.json
   def create
+    puts lesson_params
     @lesson = Lesson.new(lesson_params)
 
     respond_to do |format|
@@ -62,13 +63,13 @@ class LessonsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_lesson
-      @lesson = Lesson.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_lesson
+    @lesson = Lesson.friendly.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def lesson_params
-      params.require(:lesson).permit(:title, :content, :course_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def lesson_params
+    params.require(:lesson).permit(:title, :content, :course_id)
+  end
 end
