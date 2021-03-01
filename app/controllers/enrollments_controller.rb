@@ -25,7 +25,7 @@ class EnrollmentsController < ApplicationController
   # POST /enrollments.json
   def create
     @enrollment = Enrollment.new(enrollment_params)
-
+    @enrollment.price = @enrollment.course.price
     respond_to do |format|
       if @enrollment.save
         format.html { redirect_to @enrollment, notice: 'Enrollment was successfully created.' }
@@ -62,12 +62,10 @@ class EnrollmentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_enrollment
       @enrollment = Enrollment.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def enrollment_params
       params.require(:enrollment).permit(:course_id, :user_id, :rating, :review, :price)
     end
