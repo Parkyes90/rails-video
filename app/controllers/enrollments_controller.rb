@@ -5,8 +5,8 @@ class EnrollmentsController < ApplicationController
   # GET /enrollments
   # GET /enrollments.json
   def index
-    @pagy, @enrollments = pagy(Enrollment.all)
-    authorize @enrollments
+    @q = Enrollment.ransack(params[:q])
+    @pagy, @enrollments = pagy(@q.result.includes(:user))
   end
 
   # GET /enrollments/1
