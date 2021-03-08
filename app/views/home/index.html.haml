@@ -59,20 +59,20 @@
   .fa.fa-chart-line
   Popular courses
 .card-columns
-  - @popular_courses.each do |course|
+  - @popular.each do |course|
     = render 'courses/course', course: course
 %hr/
 %h2
   Top rated courses
 .card-columns
-  - @top_rated_courses.each do |course|
+  - @top_rated.each do |course|
     = render 'courses/course', course: course
 %hr/
 %h2
   .fa.fa-clock
   Latest courses
 .card-columns
-  - @latest_courses.each do |course|
+  - @latest.each do |course|
     = render 'courses/course', course: course
 %hr/
 %h2
