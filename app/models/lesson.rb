@@ -1,5 +1,6 @@
 class Lesson < ApplicationRecord
   belongs_to :course, counter_cache: true
+  has_many :user_lessons
   validates :title, :content, :course, presence: true
   has_rich_text :content
   extend FriendlyId
@@ -11,4 +12,8 @@ class Lesson < ApplicationRecord
     title
   end
 
+  def viewed(user)
+    self.user_lessons.where(user: user).present?
+    #self.user_lessons.where(user_id: [user.id], lesson_id: [self.id]).empty?
+  end
 end

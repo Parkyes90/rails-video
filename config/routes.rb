@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     get :my_students, on: :collection
   end
   devise_for :users
+  resources :lessons
+
   resources :courses do
     get :purchased, :pending_review, :created, on: :collection
     resources :lessons
