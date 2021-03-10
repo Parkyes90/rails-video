@@ -35,6 +35,7 @@
         = number_to_percentage(@course.progress(current_user), precision: 0)
     %ul.list-group
       - @lessons.each do |lesson|
+        %li.list-group-item
         = render 'lessons/lesson_preview', lesson: lesson
     %p
 
