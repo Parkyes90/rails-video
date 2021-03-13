@@ -6,6 +6,7 @@ class CoursesController < ApplicationController
 
     @ransack_courses = Course.published.approved.ransack(params[:courses_search], search_key: :courses_search)
     @pagy, @courses = pagy(@ransack_courses.result.includes(:user))
+    puts @course
   end
 
   def purchased
@@ -49,6 +50,7 @@ class CoursesController < ApplicationController
   end
 
   def show
+    authorize @course
     @lessons = @course.lessons
     @enrollments_with_review = @course.enrollments.reviewed
   end
