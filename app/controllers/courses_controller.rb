@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:show]
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :approve, :unapprove]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :approve, :unapprove, :analytics]
 
   def index
     @ransack_path = courses_path
@@ -54,6 +54,10 @@ class CoursesController < ApplicationController
     authorize @course
     @lessons = @course.lessons
     @enrollments_with_review = @course.enrollments.reviewed
+  end
+
+  def analytics
+    authorize @course, :owner?
   end
 
   def new
