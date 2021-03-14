@@ -29,35 +29,38 @@
   .card.card-body
     %h1
       .fa.fa-graduation-cap
-    = Course.count
-    online courses
+    = pluralize(Course.approved.published.count, 'online courses')
+    /= Course.count
+    /online courses
     .row
-    Explore a variety of fresh topics
+    %small Explore a variety of fresh topics
   .card.card-body
     %h1
       .fa.fa-chalkboard-teacher
       /.fa.fa-brain
-    = Course.distinct.count(:user_id)
-    expert instructors
+    = pluralize(Course.distinct.count(:user_id), 'expert instructors')
+    /= Course.distinct.count(:user_id)
+    /expert instructors
     .row
-    Find the right instructor for you
+    %small Find the right instructor for you
   .card.card-body
     %h1
       .fa.fa-user-graduate
-    = User.count
-    active learners
+    = pluralize(User.count, 'active learners')
+    /= User.count
+    /active learners
     .row
-    Join the knowledge sharing community
+    %small Join the knowledge sharing community
   .card.card-body
     %h1
       .fa.fa-infinity
     Lifetime access
     .row
-    Learn on your schedule
+    %small Learn on your schedule
 
 %p
 
-- if current_user
+- if current_user && current_user.enrollments.any?
   %h2
     .fa.fa-user-graduate
     Continue Learning
@@ -65,7 +68,7 @@
     - @purchased_courses.each do |course|
       = render 'courses/course', course: course
   .text-right
-    = link_to 'All my purchased courses', purchased_courses_path
+    = link_to 'All my courses', learning_courses_path
   %hr
 
 %h2
@@ -94,7 +97,7 @@
   - @latest.each do |course|
     = render 'courses/course', course: course
 .text-right
-  = link_to 'More new courses', courses_path(courses_search: {s: 'created_at desc'})
+  = link_to 'More recent courses', courses_path(courses_search: {s: 'created_at desc'})
 
 %hr
 %h2
@@ -103,3 +106,4 @@
 .card-columns
   - @latest_good_reviews.each do |enrollment|
     = render 'enrollments/enrollment', enrollment: enrollment
+
