@@ -8,15 +8,25 @@
 = link_to course_path(@course) do
   .fa.fa-graduation-cap
   = @course.title
+
 .row
   .col-lg-8.order-1.order-lg-1
     .jumbotron
       %h3
         .fa.fa-graduation-cap
         = @course.title
-      .p-3
+        /.row
+        /HAS AVATAR?
+        /= @course.avatar.attached?
+        /- if @course.avatar.attached?
+        /  = image_tag @course.avatar, width: "200px"
+      %hr
+      .fa.fa-clock
+      Created
+      = @course.created_at.strftime("%m/%Y")
       .row
       .fa.fa-clock
+      Last updated
       = @course.updated_at.strftime("%m/%Y")
       .row
       .fa.fa-globe-africa
@@ -24,24 +34,32 @@
       .row
       .fa.fa-signal
       = @course.level
-      .p-3
+      %hr
       = @course.description
 
     %h4
       .fa.fa-tasks
       = pluralize(@course.lessons_count, 'lesson')
+      /Lessons:
+      /= @course.lessons_count
       .float-right
         .fa.fa-spinner
         = number_to_percentage(@course.progress(current_user), precision: 0)
-    %ul.list-group
+
+    .list-group.lesson-sortable
       - @lessons.each do |lesson|
-        %li.list-group-item
-          = render 'lessons/lesson_preview', lesson: lesson
+        = content_tag "div", id: "lesson-#{lesson.id}", data: { model_name: lesson.class.name.underscore, update_url: course_lesson_sort_path(@course, lesson)} do
+          .list-group-item
+            .fa.fa-sort.all-scroll{:style => "cursor: grab;"}
+            = render 'lessons/lesson_preview', lesson: lesson
     %p
 
     %h4
       .fa.fa-comment
       = pluralize(@enrollments_with_review.count, 'review')
+      /Reviews:
+      /= @enrollments_with_review.count
+
     - @enrollments_with_review.each do |enrollment|
       = render 'enrollments/enrollment', enrollment: enrollment
       %p
