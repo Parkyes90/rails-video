@@ -1,18 +1,15 @@
 class Course < ApplicationRecord
-  validates :title,
-            :short_description,
-            :language,
-            :price,
-            :level,
-            presence: true
-  validates :description, presence: true, length: { minimum: 5 }
+  validates :title, :description, :short_description, :language, :price, :level,  presence: true
+  validates :description, length: { minimum: 5 }
+  validates :short_description, length: { maximum: 300 }
 
   belongs_to :user, counter_cache: true
   has_many :lessons, dependent: :destroy
   has_many :enrollments, dependent: :restrict_with_error
   has_many :user_lessons, through: :lessons
 
-  validates :title, uniqueness: true
+  validates :title, uniqueness: true, length: { maximum: 70 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
 
   scope :latest, -> { limit(3).order(created_at: :desc) }
   scope :top_rated, -> { limit(3).order(average_rating: :desc, created_at: :desc) }
@@ -23,9 +20,10 @@ class Course < ApplicationRecord
   scope :unapproved, -> { where(approved: false) }
 
   has_one_attached :avatar
-  validates :avatar, attached: true,
-            content_type: %w[image/png image/jpg image/jpeg],
+  validates :avatar, presence: true,
+            content_type: ['image/png', 'image/jpg', 'image/jpeg'],
             size: { less_than: 500.kilobytes , message: 'size should be under 500 kilobytes' }
+
 
   def to_s
     title
@@ -34,6 +32,7 @@ class Course < ApplicationRecord
 
   extend FriendlyId
   friendly_id :title, use: :slugged
+
   LANGUAGES = [:"English", :"Russian", :"Polish", :"Spanish"]
   def self.languages
     LANGUAGES.map { |language| [language, language] }
@@ -48,7 +47,7 @@ class Course < ApplicationRecord
   tracked owner: Proc.new{ |controller, model| controller.current_user }
 
   def bought(user)
-    self.enrollments.where(user_id: [user.id], course_id: [self.id]).empty?
+    self.enrollments.where(user_id: [user.id], course_id: [self.id]).any?
   end
 
   def progress(user)
@@ -64,4 +63,5 @@ class Course < ApplicationRecord
       update_column :average_rating, (0)
     end
   end
+
 end
