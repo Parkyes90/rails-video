@@ -1,3 +1,4 @@
+
 - content_for :title do
   Corsego
   |
@@ -5,18 +6,29 @@
   = @course.title
   |
   Lesson
+  #{@lesson.row_order_rank + 1}.
   = @lesson.title
+
 
 = link_to 'Courses', courses_path
 |
-= link_to @lesson.course.title, course_path(@lesson.course)
+= link_to course_path(@lesson.course) do
+  .fa.fa-graduation-cap
+  = @lesson.course.title
 |
-= link_to @lesson.title, course_lesson_path(@course, @lesson)
+= link_to course_lesson_path(@course, @lesson) do
+  .fa.fa-check-square
+  = @lesson.title
 %p
 
+/= @lesson.user_lessons.where(user: current_user).first.impressions
 .row
   .col-lg-8
     = render 'lessons/lesson', lesson: @lesson
+    = image_tag @lesson.video_thumbnail
+    %video(controls="true" poster="#{url_for @lesson.video_thumbnail}" width="100%" preload="metadata")
+      %source{src: rails_blob_url(@lesson.video), type:"#{@lesson.video.content_type}"}
+
     %p
   .col-lg-4
     %ul.list-group
@@ -35,3 +47,4 @@
         - else
           %li.list-group-item
             = render 'lessons/lesson_preview', lesson: lesson
+
