@@ -7,8 +7,7 @@
       = link_to course_path(course) do
         = image_tag course.avatar, height: "200px", width: "100%"
         /= image_tag course.avatar.variant(resize_to_limit: [100, 100])
-
-  .card-body
+  .card-footer
     %small= simple_format(course.short_description)
   .card-footer
     .text-center
@@ -20,6 +19,9 @@
       .col-md-6
         .text-warning.fa.fa-star
         %b= course.average_rating
+        /Enrollments count:
+        /= course.enrollments.count
+        /Counter cache enrollments count:
         (
         .fa.fa-user-graduate
         = course.enrollments_count
@@ -31,6 +33,24 @@
           .fa.fa-chalkboard-teacher
           by
           = link_to course.user.username, user_path(course.user)
+  /.card-footer
+  /  .row
+  /    .col-md-6
+  /      .fa.fa-globe-africa
+  /      = course.language
+  /    .col-md-6
+  /      .text-right
+  /        .fa.fa-signal
+  /        = course.level
+  /.card-footer
+  /  .row
+  /    .col-md-6
+  /      .far.fa-clock
+  /      = course.created_at.strftime('%d-%b-%Y')
+  /    .col-md-6
+  /      .text-right
+  /        .fa.fa-chalkboard-teacher
+  /        = link_to course.user.username, user_path(course.user)
   - if current_user
     - if policy(course).owner?
       .card-footer
@@ -51,9 +71,8 @@
           .badge.badge-success approved
         - else
           .badge.badge-danger unapproved
-    - if policy(course).approve?
-      .card-footer
-        - if course.approved?
-          = link_to 'unapprove', unapprove_course_path(course), method: :patch, class: 'btn btn-sm btn-danger'
-        - else
-          = link_to 'approve', approve_course_path(course), method: :patch, class: 'btn btn-sm btn-success'
+        - if policy(course).approve?
+          - if course.approved?
+            = link_to 'unapprove', unapprove_course_path(course), method: :patch, class: 'btn btn-sm btn-danger'
+          - else
+            = link_to 'approve', approve_course_path(course), method: :patch, class: 'btn btn-sm btn-success'
