@@ -15,5 +15,11 @@ module Rubygems
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.after_initialize do
+      ActionText::ContentHelper.allowed_attributes.add 'style'
+      ActionText::ContentHelper.allowed_attributes.add 'controls'
+      ActionText::ContentHelper.allowed_tags.add 'video'
+      ActionText::ContentHelper.allowed_tags.add 'source'
+    end
   end
 end
