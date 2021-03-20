@@ -22,7 +22,7 @@
 
 .float-right
   .fa.fa-comment
-  = lesson.comments_count
+    = lesson.user_lessons_count
   - if policy(lesson).edit?
     .fa.fa-eye
     Impressions:
