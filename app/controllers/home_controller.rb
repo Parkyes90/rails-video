@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, :only => [:index, :privacy_policy]
   def index
     @latest_good_reviews = Enrollment.reviewed.latest_good_reviews
     @latest = Course.latest.published.approved
@@ -20,5 +20,7 @@ class HomeController < ApplicationController
     unless current_user.has_role?(:admin)
       redirect_to root_path, alert: "You are not authorized to access this page"
     end
+  end
+  def privacy_policy
   end
 end
