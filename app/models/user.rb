@@ -2,15 +2,9 @@ class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable,
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :validatable,
-         :trackable,
-         :confirmable,
-         :omniauthable,
-         omniauth_providers: [:google_oauth2]
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable, :trackable, :confirmable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
 
   def to_s
