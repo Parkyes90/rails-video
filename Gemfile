@@ -52,3 +52,4 @@ gem "aws-sdk-s3"
 gem 'active_storage_validations' #validate image and file uploads
 gem 'image_processing' #sudo apt install imagemagick
 gem 'recaptcha'
+gem 'omniauth-google-oauth2' #sign in with google
