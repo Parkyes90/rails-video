@@ -4,14 +4,13 @@ class CoursesController < ApplicationController
 
   def index
     @ransack_path = courses_path
-
     @ransack_courses = Course.published.approved.ransack(params[:courses_search], search_key: :courses_search)
     @pagy, @courses = pagy(@ransack_courses.result.includes(:user))
-    puts @course
+
   end
 
-  def purchased
-    @ransack_path = purchased_courses_path
+  def learning
+    @ransack_path = learning_courses_path
     @ransack_courses = Course.joins(:enrollments).where(enrollments: {user: current_user}).ransack(params[:courses_search], search_key: :courses_search)
     @pagy, @courses = pagy(@ransack_courses.result.includes(:user))
     render 'index'
@@ -24,8 +23,8 @@ class CoursesController < ApplicationController
     render 'index'
   end
 
-  def created
-    @ransack_path = created_courses_path
+  def teaching
+    @ransack_path = teaching_courses_path
     @ransack_courses = Course.where(user: current_user).ransack(params[:courses_search], search_key: :courses_search)
     @pagy, @courses = pagy(@ransack_courses.result.includes(:user))
     render 'index'
@@ -50,14 +49,14 @@ class CoursesController < ApplicationController
     redirect_to @course, notice: "Course upapproved and hidden!"
   end
 
+  def analytics
+    authorize @course, :owner?
+  end
+
   def show
     authorize @course
     @lessons = @course.lessons.rank(:row_order)
     @enrollments_with_review = @course.enrollments.reviewed
-  end
-
-  def analytics
-    authorize @course, :owner?
   end
 
   def new
@@ -76,15 +75,11 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html do
-          redirect_to @course, notice: 'Course was successfully created.'
-        end
+        format.html { redirect_to @course, notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
         format.html { render :new }
-        format.json do
-          render json: @course.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -93,15 +88,11 @@ class CoursesController < ApplicationController
     authorize @course
     respond_to do |format|
       if @course.update(course_params)
-        format.html do
-          redirect_to @course, notice: 'Course was successfully updated.'
-        end
+        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { render :show, status: :ok, location: @course }
       else
         format.html { render :edit }
-        format.json do
-          render json: @course.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -119,13 +110,12 @@ class CoursesController < ApplicationController
   end
 
   private
-
   def set_course
     @course = Course.friendly.find(params[:id])
   end
 
   def course_params
     params.require(:course).permit(:title, :description, :short_description, :price,
-                                   :published, :language, :level, :avatar)
+                                   :published, :language, :level, :avatar, tag_ids: [])
   end
 end

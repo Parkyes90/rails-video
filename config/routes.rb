@@ -1,21 +1,26 @@
 Rails.application.routes.draw do
+
+  #devise_for :users
+  devise_for :users, :controllers => { registrations: 'users/registrations'}
+
+  root 'home#index'
+  get 'home/index'
+  get 'activity', to: 'home#activity'
+  get 'analytics', to: 'home#analytics'
+  get 'privacy_policy', to: 'home#privacy_policy'
+
   resources :enrollments do
-    get :my_students, on: :collection
+    get :my, on: :collection
   end
-  devise_for :users, :controllers => {
-    registrations: 'users/registrations',
-    omniauth_callbacks: 'users/omniauth_callbacks'
-  }
-  resources :lessons
 
   resources :courses do
-    get :purchased, :pending_review, :created, :unapproved, on: :collection
+    get :learning, :pending_review, :teaching, :unapproved, on: :collection
     member do
       get :analytics
       patch :approve
       patch :unapprove
     end
-    resources :lessons do
+    resources :lessons, except: [:index] do
       resources :comments, except: [:index]
       put :sort
       member do
@@ -24,19 +29,14 @@ Rails.application.routes.draw do
     end
     resources :enrollments, only: [:new, :create]
   end
-  resources :youtube, only: :show
 
   resources :users, only: [:index, :edit, :show, :update]
-  get 'home/index'
-  root 'home#index'
-  get 'activity', to: 'home#activity'
-  get 'analytics', to: 'home#analytics'
-  get 'privacy_policy', to: 'home#privacy_policy'
+
   namespace :charts do
     get 'users_per_day'
     get 'enrollments_per_day'
     get 'course_popularity'
     get 'money_makers'
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
 end
