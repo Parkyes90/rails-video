@@ -30,6 +30,13 @@ import "video.js/dist/video-js.css";
 import "youtube";
 
 $(document).on("turbolinks:load", function () {
+  const selectize = $(".selectize");
+
+  if (selectize) {
+    selectize.selectize({
+      sortField: "text",
+    });
+  }
   $(".lesson-sortable").sortable({
     cursor: "grabbing",
     cursorAt: { left: 10 },
@@ -65,11 +72,6 @@ $(document).on("turbolinks:load", function () {
     });
     videoPlayer.addClass("video-js");
     videoPlayer.addClass("vjs-big-play-centered");
-  }
-  if ($(".selectize")) {
-    $(".selectize").selectize({
-      sortField: "text",
-    });
   }
 });
 
