@@ -80,6 +80,9 @@
               = link_to activity_path, class: "dropdown-item #{'active' if current_page?(activity_path)}" do
                 .fa.fa-bell
                 Activity
+              = link_to tags_path, class: "dropdown-item" do
+                .fa.fa-tags
+                Tags
               = link_to analytics_path, class: "dropdown-item #{'active' if current_page?(analytics_path)}" do
                 .fa.fa-chart-line
                 Analytics

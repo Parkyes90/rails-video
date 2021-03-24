@@ -15,6 +15,7 @@
 
 .row
   .col-lg-2
+    /= search_form_for @q do |f|
     = search_form_for @ransack_courses, as: :courses_search, url: @ransack_path do |f|
       = f.label :title
       = f.search_field :title_cont, placeholder: 'Title', class: 'form-control form-control-sm'
@@ -49,14 +50,17 @@
 
     = link_to 'refresh', @ransack_path
     .row
-    - @tags.all.order(course_tags_count: :desc).each do |tag|
+    - @tags.each do |tag|
+      /= link_to courses_path(courses_search: {course_tags_tag_id_eq: tag.id}) do
       = link_to controller: controller_name, action: action_name, courses_search: {course_tags_tag_id_eq: tag.id} do
         .badge.badge-info
           = tag.name
-          = tag.course_tags_count
+          %span.badge.badge-light
+            = tag.course_tags_count
   .col-lg-10
     .card-columns
       - @courses.each do |course|
         = render 'courses/course', course: course
+    /!= pagy_nav(@pagy)
     != pagy_bootstrap_nav(@pagy)
 %br
