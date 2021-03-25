@@ -54,3 +54,5 @@ gem 'image_processing' #sudo apt install imagemagick
 gem 'recaptcha'
 gem 'omniauth-google-oauth2' #sign in with google
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
+gem 'wicked_pdf' #PDF for Ruby on Rails
+gem 'wkhtmltopdf-binary' #PDF dependancy
