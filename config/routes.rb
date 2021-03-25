@@ -33,6 +33,13 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :edit, :show, :update]
 
+  resources :enrollments do
+    get :my, on: :collection
+    member do
+      get :certificate
+    end
+  end
+
   namespace :charts do
     get 'users_per_day'
     get 'enrollments_per_day'
