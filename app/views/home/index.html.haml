@@ -65,7 +65,7 @@
     .fa.fa-user-graduate
     Continue Learning
   .card-columns
-    - @purchased_courses.each do |course|
+    - @learning_courses.each do |course|
       = render 'courses/course', course: course
   .text-right
     = link_to 'All my courses', learning_courses_path
