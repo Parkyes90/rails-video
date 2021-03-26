@@ -4,8 +4,10 @@ class Courses::CourseWizardController < ApplicationController
   before_action :set_course, only: [:show, :update, :finish_wizard_path]
 
   steps :basic_info, :details
-  
+
   def show
+    authorize @course, :edit?
+
     case step
     when :basic_info
     when :details
@@ -15,6 +17,8 @@ class Courses::CourseWizardController < ApplicationController
   end
 
   def update
+    authorize @course, :edit?
+
     case step
     when :basic_info
       @course.update_attributes(course_params)
@@ -26,6 +30,8 @@ class Courses::CourseWizardController < ApplicationController
   end
 
   def finish_wizard_path
+    authorize @course, :edit?
+
     course_path(@course)
   end
 
