@@ -6,6 +6,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2, :github]
 
+  after_create do
+    UserMailer.new_user(self).deliver_later
+  end
 
   def to_s
     email
