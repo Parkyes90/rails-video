@@ -57,3 +57,4 @@ gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 gem 'wicked_pdf' #PDF for Ruby on Rails
 gem 'wkhtmltopdf-binary' #PDF dependancy
 gem 'wicked' #multistep forms
+gem "cocoon"
