@@ -13,6 +13,8 @@ class Course < ApplicationRecord
   validates :title, uniqueness: true, length: { maximum: 70 }
   validates :price, numericality: { greater_than_or_equal_to: 0 }
 
+  accepts_nested_attributes_for :lessons, reject_if: :all_blank, allow_destroy: true
+
   scope :latest, -> { limit(3).order(created_at: :desc) }
   scope :top_rated, -> { limit(3).order(average_rating: :desc, created_at: :desc) }
   scope :popular, -> { limit(3).order(enrollments_count: :desc, created_at: :desc) }
