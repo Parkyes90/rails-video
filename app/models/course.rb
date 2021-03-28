@@ -4,7 +4,7 @@ class Course < ApplicationRecord
   validates :short_description, length: { maximum: 300 }
 
   belongs_to :user, counter_cache: true
-  has_many :lessons, dependent: :destroy
+  has_many :lessons, dependent: :destroy, inverse_of: :course
   has_many :enrollments, dependent: :restrict_with_error
   has_many :user_lessons, through: :lessons
   has_many :course_tags, inverse_of: :course, dependent: :destroy

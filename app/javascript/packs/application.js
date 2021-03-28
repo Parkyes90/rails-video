@@ -16,6 +16,8 @@ require("channels");
 // const imagePath = (name) => images(name, true)
 
 import "bootstrap";
+import "cocoon-js";
+
 require("trix");
 require("@rails/actiontext");
 require("chartkick");
