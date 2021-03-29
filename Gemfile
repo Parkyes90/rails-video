@@ -58,3 +58,4 @@ gem 'wicked_pdf' #PDF for Ruby on Rails
 gem 'wkhtmltopdf-binary' #PDF dependancy
 gem 'wicked' #multistep forms
 gem "cocoon"
+gem 'stripe'
