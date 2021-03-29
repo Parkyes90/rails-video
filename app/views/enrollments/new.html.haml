@@ -1,9 +1,10 @@
+
 - content_for :title do
-  Corsego 
-  \| 
+  Corsego
+  |
   New enrollment
 
-.card
+.card.shadow
   .card-header
     %h3
       .fa.fa-graduation-cap
@@ -13,6 +14,11 @@
       Buy course
   .card-body
     = form_tag course_enrollments_path(@course) do
-      = submit_tag "Pay #{@course.price}", class: 'btn btn-lg btn-success'
+      %script.stripe-button{"data-amount" => "#{(@course.price * 100).to_i}",
+                            "data-description" => "#{@course.title} (#{number_to_currency @course.price})",
+                            "data-email" => "#{current_user.email}",
+                            "data-key" => "#{Rails.application.credentials.dig(:stripe, :publishable_key)}",
+                            "data-locale" => "auto",
+                            :src => "https://checkout.stripe.com/checkout.js"}
   .card-footer
     = link_to 'Back', course_path(@course)
